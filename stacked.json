@@ -1,0 +1,57 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+        "url": "https://raw.githubusercontent.com/BenAbrahamsMonash/FIT3179Assignment2/main/long_cities_data.csv"
+    },
+    
+    "height": 400,
+    "width": 700,
+      
+    "transform": [
+    {"filter": {"field": "City", "oneOf":["Melbourne", "Sydney", "Singapore", "Montreal", "Shanghai"]}}
+    ],
+
+    "params":[
+        {
+            "name": "category_highlight",
+            "select": {"type": "point", "fields":["Index Category"]},
+            "bind": "legend"
+        }
+    ],
+
+
+    "mark": "bar",
+    "encoding": {
+        "tooltip":[
+            {"field": "City", "type": "nominal"},
+            {"field": "Country", "type": "nominal"},
+            {"field": "Index Category", "type": "nominal"},
+            {"field": "Index Value", "type": "quantitative", "format": ","}
+        ],
+        "y": {
+            "field": "City",
+            "type": "nominal",
+            "title": "City"
+        },
+        "x":{
+            "field": "Index Value",
+            "type": "quantitative",
+            "title": "Sum of Smart Indexes",
+            "axis":{"tickCount": 6}
+        
+        },
+        "color": {
+            "field":"Index Category",
+            "title": "Type of Index",
+            "type": "nominal",
+            "scale": {
+                "domain": ["Smart.Mobility.Index", "Smart.Environment.Index", "Smart.Government.Index", "Smart.Economy.Index", "Smart.People.Index", "Smart.Living.Index"],
+                "range": ["#a69838", "#f1e232", "#1021a8", "#93c47d", "#8b7cc3", "#2ad1dc"]
+            }
+        },
+        "opacity": {
+            "condition":{"param": "category_highlight", "value": 1},
+            "value": 0.4
+        }
+    }
+}
